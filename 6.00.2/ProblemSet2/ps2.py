@@ -89,8 +89,10 @@ class RectangularRoom(object):
 
         pos: a Position
         """
-        
-        self.room[int(math.floor(pos.y))][int(math.floor(pos.x))] = 1
+        x,y = math.floor(pos.x), math.floor(pos.y)
+        if x >= self.width : x = self.width -1
+        if y >= self.height : y = self.height - 1
+        self.room[int(x)][int(y)] = 1
 
     def isTileCleaned(self, m, n):
         """
@@ -230,16 +232,16 @@ class StandardRobot(Robot):
             self.room.cleanTileAtPosition(pos)
         else:
             if pos.x < 0 :pos.x = 0
-            if pos.x > self.room.width : pos.x = self.room.width
+            if pos.x > self.room.width : pos.x = self.room.width - 0.01
             if pos.y < 0 :pos.y = 0
-            if pos.y > self.room.height : pos.y = self.room.height
+            if pos.y > self.room.height : pos.y = self.room.height - 0.01
             self.room.cleanTileAtPosition(pos)
             self.setRobotDirection(random.randrange(360))
         self.pos = pos 
         
 
 # Uncomment this line to see your implementation of StandardRobot in action!
-##testRobotMovement(StandardRobot, RectangularRoom)
+# testRobotMovement(StandardRobot, RectangularRoom)
 
 
 # === Problem 3
@@ -261,7 +263,20 @@ def runSimulation(num_robots, speed, width, height, min_coverage, num_trials,
     robot_type: class of robot to be instantiated (e.g. StandardRobot or
                 RandomWalkRobot)
     """
-    raise NotImplementedError
+    mean ,summ = 0, 0
+    
+    for _ in xrange(num_trials):
+        Room = RectangularRoom(width, height)
+        bots = [robot_type(Room, speed) for i in xrange(num_robots)]
+        counter = 0
+        while float(Room.getNumCleanedTiles()) / Room.getNumTiles() < min_coverage:
+            counter +=1
+            for bot in bots:
+                bot.updatePositionAndClean()
+        summ += counter
+    return float(summ) / float(num_trials)
+
+# print runSimulation(1,1.0,5,5,1,100, StandardRobot)
 
 # Uncomment this line to see how much your simulation takes on average
 ##print  runSimulation(1, 1.0, 10, 10, 0.75, 30, StandardRobot)
@@ -280,7 +295,17 @@ class RandomWalkRobot(Robot):
         Move the robot to a new position and mark the tile it is on as having
         been cleaned.
         """
-        raise NotImplementedError
+        pos = self.pos.getNewPosition(random.randrange(360),self.speed)
+        if self.room.isPositionInRoom(pos):
+            self.room.cleanTileAtPosition(pos)
+        else:
+            if pos.x < 0 :pos.x = 0
+            if pos.x > self.room.width : pos.x = self.room.width - 0.01
+            if pos.y < 0 :pos.y = 0
+            if pos.y > self.room.height : pos.y = self.room.height - 0.01
+            self.room.cleanTileAtPosition(pos)
+            self.setRobotDirection(random.randrange(360))
+        self.pos = pos 
 
 
 def showPlot1(title, x_label, y_label):
@@ -302,7 +327,9 @@ def showPlot1(title, x_label, y_label):
     pylab.ylabel(y_label)
     pylab.show()
 
-    
+# showPlot1('shit','num_bots','time')
+
+
 def showPlot2(title, x_label, y_label):
     """
     What information does the plot produced by this function tell you?
@@ -324,7 +351,7 @@ def showPlot2(title, x_label, y_label):
     pylab.ylabel(y_label)
     pylab.show()
     
-
+showPlot2('shit','num_bots','time')
 # === Problem 5
 #
 # 1) Write a function call to showPlot1 that generates an appropriately-labeled
