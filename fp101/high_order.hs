@@ -14,3 +14,15 @@ len (_:xs) = 1 + len xs
 
 llen :: [a] -> Int
 llen  = ffoldr (\ _ x -> x+1) 0 
+
+ttakeWhile :: (a -> Bool) -> [a] -> [a]
+ttakeWhile p [] = []
+ttakeWhile p (x:xs) 
+    | p x = x : ttakeWhile p xs
+    | otherwise = []
+
+ddropWhile :: (a -> Bool) -> [a] -> [a]
+ddropWhile p [] = []
+ddropWhile p (x:xs)
+    | p x = ddropWhile p xs
+    | otherwise = x:xs
