@@ -27,11 +27,11 @@ sumSquares n = sum (squares n)
 -- ===================================
 
 -- complete the following line with the correct type signature for this function
-squares' :: Integer -> Integer -> [Integer]
+squares' :: Int -> Int -> [Int]
 squares' m n = [ x*x | x <- xs]
     where xs = take m [n+1..] 
 
-sumSquares' :: Integer -> Integer
+sumSquares' :: Int -> Int
 sumSquares' x = sum . uncurry squares' $ (x, x)
 
 -- ===================================
@@ -39,4 +39,12 @@ sumSquares' x = sum . uncurry squares' $ (x, x)
 -- ===================================
 
 coords :: Integer -> Integer -> [(Integer,Integer)]
-coords = undefined
+coords x y = [(a,b)| a <-[0..x] , b <-[0..y]]
+
+data Color = Red | Blue | Green
+say :: Color -> String
+say Red = "You are Red"
+say Blue = "You are Blue"
+say Green = "You are Green"
+main :: IO()
+main = putStrLn  $ "Hello World" ++ ( say Blue)
