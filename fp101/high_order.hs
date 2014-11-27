@@ -26,3 +26,32 @@ ddropWhile p [] = []
 ddropWhile p (x:xs)
     | p x = ddropWhile p xs
     | otherwise = x:xs
+
+
+compose :: [a -> a] -> (a -> a)
+compose = foldr (.) id 
+
+--sumsqreven = compose [sum, map (^2), filter even]
+
+type Bit = Int
+int2bin :: Int -> [Bit]
+int2bin 0 = []
+--int2bin n = n `mod` 2 : int2bin (n `div` 2)
+int2bin n = int2bin (n `div` 2) ++ [n `mod` 2]
+ 
+unfold p h t x
+    | p x = []
+    | otherwise = h x : unfold p h t (t x)
+
+
+
+
+
+
+
+
+
+
+
+
+
