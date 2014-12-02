@@ -82,4 +82,4 @@ def simulationTwoDrugsDelayedTreatment(numTrials):
     pylab.hist(viruspops,10)
     pylab.show()
 
-simulationTwoDrugsDelayedTreatment(100)
+# simulationTwoDrugsDelayedTreatment(100)
