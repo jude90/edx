@@ -1,6 +1,6 @@
 module Main where
 
-main = putStrLn "Hello World"
+main = putStrLn "Hello World, fuck you"
 
 ffoldr :: (a -> b -> b) -> b -> [a] -> b
 ffoldr f v [] = v
@@ -42,6 +42,7 @@ int2bin n = int2bin (n `div` 2) ++ [n `mod` 2]
 unfold p h t x
     | p x = []
     | otherwise = h x : unfold p h t (t x)
+
 
 
 
