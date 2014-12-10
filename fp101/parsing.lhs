@@ -13,7 +13,10 @@ The monad of parsers
 >
 > instance Monad Parser where
 >    return v                   =  P (\inp -> [(v,inp)])
->    p >>= f                    =  error "You must implement (>>=)"
+>    p >>= f                    =  P (\ inp ->
+>                                       case parse p inp of
+>                                            [] -> []
+>                                            [(v, out)] -> parse (f v) inp)
 > 
 > instance MonadPlus Parser where
 >    mzero                      =  P (\inp -> [])
